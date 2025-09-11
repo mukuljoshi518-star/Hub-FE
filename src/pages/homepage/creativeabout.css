@@ -1,0 +1,17 @@
+.about-maincontainer {
+  background: linear-gradient(135deg, #111827, #1f2937);
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #2563eb;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.nav-tabs .nav-link {
+  color: #ccc;
+}
+
+.tab-pane h5, h3 {
+  color: #fff;
+}
