@@ -1,0 +1,16 @@
+.navbar-mainpart {
+  background: linear-gradient(to right, #111, #333);
+  border-bottom: 2px solid #ffc107;
+}
+
+.navbar-mainpart .nav-link:hover {
+  color: #ffc107 !important;
+}
+
+.navbar-mainpart .navbar-brand {
+  color: #ffc107 !important;
+}
+
+.navbar-mainpart .nav-link{
+    color: white !important;
+}
