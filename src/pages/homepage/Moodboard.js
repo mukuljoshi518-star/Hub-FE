@@ -1,34 +1,13 @@
 import React, { useState } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button, TextField } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-// Sample data representing images, quotes, and music links
+// Sample initial data
 const initialItems = [
-  {
-    id: '1',
-    type: 'image',
-    content: 'https://via.placeholder.com/150?text=Image+1',
-  },
-  {
-    id: '2',
-    type: 'quote',
-    content: '“The only way to do great work is to love what you do.” – Steve Jobs',
-  },
-  {
-    id: '3',
-    type: 'music',
-    content: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // Example audio link
-  },
-  {
-    id: '4',
-    type: 'image',
-    content: 'https://via.placeholder.com/150?text=Image+2',
-  },
-  {
-    id: '5',
-    type: 'quote',
-    content: '“Success is not final, failure is not fatal: It is the courage to continue that counts.” – Winston Churchill',
-  },
+  { id: '1', type: 'image', content: 'https://via.placeholder.com/150?text=Image+1' },
+  { id: '2', type: 'quote', content: '“The only way to do great work is to love what you do.” – Steve Jobs' },
+  { id: '3', type: 'music', content: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+  { id: '4', type: 'image', content: 'https://via.placeholder.com/150?text=Image+2' },
+  { id: '5', type: 'quote', content: '“Success is not final, failure is not fatal: It is the courage to continue that counts.” – Winston Churchill' },
 ];
 
 const Moodboard = () => {
@@ -37,7 +16,6 @@ const Moodboard = () => {
 
   const onDragEnd = (result) => {
     const { destination, source } = result;
-
     if (!destination) return;
 
     const reorderedItems = Array.from(items);
@@ -48,21 +26,21 @@ const Moodboard = () => {
   };
 
   const handleAddItem = () => {
-    if (newItem.content) {
-      setItems([...items, { id: `${items.length + 1}`, ...newItem }]);
-      setNewItem({ type: 'image', content: '' });
-    }
+    if (!newItem.content.trim()) return;
+
+    setItems([...items, { id: (items.length + 1).toString(), ...newItem }]);
+    setNewItem({ type: 'image', content: '' });
   };
 
   const renderContent = (item) => {
     switch (item.type) {
       case 'image':
-        return <img src={item.content} alt="Inspiration" style={{ width: '100%', borderRadius: '5px' }} />;
+        return <img src={item.content} alt="Inspiration" className="img-fluid rounded" />;
       case 'quote':
-        return <Typography variant="body1" color="text.secondary" style={{ fontStyle: 'italic' }}>{item.content}</Typography>;
+        return <blockquote className="blockquote"><p>{item.content}</p></blockquote>;
       case 'music':
         return (
-          <audio controls>
+          <audio controls className="w-100">
             <source src={item.content} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
@@ -73,69 +51,78 @@ const Moodboard = () => {
   };
 
   return (
-    <Box sx={{ py: 8, px: 2, backgroundColor: '#f5f5f5' }}>
-      <Typography variant="h4" align="center" gutterBottom fontWeight="bold">
-        Virtual Moodboard - Collect Inspiration
-      </Typography>
+    <div className="container py-5" style={{ backgroundColor: '#f5f5f5' }}>
+      <h2 className="text-center mb-4">Virtual Moodboard - Collect Inspiration</h2>
 
-      <Grid container spacing={4} justifyContent="center">
-        {/* Add new item section */}
-        <Grid item xs={12} sm={6} md={4}>
-          <Card sx={{ boxShadow: 3, p: 2 }}>
-            <CardContent>
-              <TextField
-                label="Add Image URL or Quote"
-                fullWidth
+      <div className="row mb-4 justify-content-center">
+        <div className="col-md-6">
+          <div className="card shadow-sm p-3">
+            <div className="mb-3">
+              <label htmlFor="itemContent" className="form-label">Add Image URL, Quote or Music Link</label>
+              <input
+                type="text"
+                id="itemContent"
+                className="form-control"
                 value={newItem.content}
                 onChange={(e) => setNewItem({ ...newItem, content: e.target.value })}
-                variant="outlined"
-                margin="normal"
+                placeholder="Enter content URL or quote text"
               />
-              <Button
-                variant="contained"
-                onClick={handleAddItem}
-                sx={{ width: '100%', marginTop: 2 }}
-              >
-                Add Item
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid>
+            </div>
 
-        {/* Moodboard with draggable items */}
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="moodboard" direction="horizontal">
-            {(provided) => (
-              <Grid
-                container
-                spacing={4}
-                justifyContent="center"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
+            <div className="mb-3">
+              <label htmlFor="itemType" className="form-label">Type</label>
+              <select
+                id="itemType"
+                className="form-select"
+                value={newItem.type}
+                onChange={(e) => setNewItem({ ...newItem, type: e.target.value })}
               >
-                {items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided) => (
-                      <Grid item xs={12} sm={6} md={4} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <Card sx={{ height: '100%', boxShadow: 3, display: 'flex', flexDirection: 'column' }}>
-                          <CardContent>
-                            <Typography variant="h6" fontWeight="medium" gutterBottom>
-                              {item.type === 'image' ? 'Image' : item.type === 'quote' ? 'Quote' : 'Music'}
-                            </Typography>
-                            {renderContent(item)}
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </Grid>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </Grid>
-    </Box>
+                <option value="image">Image</option>
+                <option value="quote">Quote</option>
+                <option value="music">Music</option>
+              </select>
+            </div>
+
+            <button className="btn btn-primary w-100" onClick={handleAddItem}>Add Item</button>
+          </div>
+        </div>
+      </div>
+
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="moodboard" direction="horizontal">
+          {(provided) => (
+            <div
+              className="d-flex flex-row overflow-auto"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={{ gap: '1rem', paddingBottom: '1rem' }}
+            >
+              {items.map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id} index={index}>
+                  {(provided) => (
+                    <div
+                      className="card flex-shrink-0"
+                      style={{ width: '250px' }}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <div className="card-body d-flex flex-column">
+                        <h5 className="card-title">
+                          {item.type === 'image' ? 'Image' : item.type === 'quote' ? 'Quote' : 'Music'}
+                        </h5>
+                        <div className="card-text">{renderContent(item)}</div>
+                      </div>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </div>
   );
 };
 
