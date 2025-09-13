@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Box, Typography, TextField, Grid, Paper } from '@mui/material';
 import AIImageGenerator from './aiImageGen';
 
