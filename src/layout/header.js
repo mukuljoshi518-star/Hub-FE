@@ -16,12 +16,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const navItems = [
-  { label: 'Home', to: '/' },
   { label: 'Features', to: '/feature-section' },
   { label: 'Pricing', to: '/pricing-section' },
   { label: 'About', to: '/about' },
   {label: 'Life Tracker', to: '/life-tracker'},
   { label: 'Contact', to: '/contact' },
+  { label: 'UserProfile', to: '/user-profile' },
 ];
 
 const Header = () => {

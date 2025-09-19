@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import OwlCarousel from 'react-owl-carousel3';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+import './banner.css'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const Banner = () => {
@@ -22,7 +21,7 @@ const Banner = () => {
       id: 3,
       title: 'Your Mind, Visualized',
       description: 'Turn thoughts into visuals, and visuals into stories.',
-      image: 'https://cdn.pixabay.com/video/2023/08/07/176451-853711893_large.mp4',
+      image: 'https://images.unsplash.com/photo-1682965181456-a85555ac6c59?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
   ];
 
@@ -46,56 +45,52 @@ const Banner = () => {
     <div style={{ position: 'relative' }}>
       {/* Nav Buttons */}
       <div
-        className="nav-btn nav-left"
-        onClick={handlePrevClick}
-        style={navBtnStyle('left')}
-      >
-        <FaChevronLeft />
+  className="nav-btn nav-left"
+  onClick={handlePrevClick}
+>
+  <FaChevronLeft />
+</div>
+<div
+  className="nav-btn nav-right"
+  onClick={handleNextClick}
+>
+  <FaChevronRight />
+</div>
+
+     <OwlCarousel ref={carouselRef} className="owl-theme" {...options}>
+  {bannerItems.map((item) => (
+    <div className="item" key={item.id}>
+      <div className="banner-slide-container">
+        {item.image.endsWith('.mp4') ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="video-style"
+          >
+            <source src={item.image} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ) : (
+          <div
+            className="image-style"
+            style={{ backgroundImage: `url(${item.image})` }}
+          />
+        )}
+
+        {/* Gradient Overlay */}
+        <div className="overlay-style" />
+
+        {/* Content */}
+        <div className="content-style">
+          <h2 className="banner-content-main">{item.title}</h2>
+          <p className="desc-style">{item.description}</p>
+        </div>
       </div>
-      <div
-        className="nav-btn nav-right"
-        onClick={handleNextClick}
-        style={navBtnStyle('right')}
-      >
-        <FaChevronRight />
-      </div>
-
-      <OwlCarousel ref={carouselRef} className="owl-theme" {...options}>
-        {bannerItems.map((item) => (
-          <div className="item" key={item.id}>
-            <div style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
-              {item.image.endsWith('.mp4') ? (
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={videoStyle}
-                >
-                  <source src={item.image} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <div
-                  style={{
-                    backgroundImage: `url(${item.image})`,
-                    ...imageStyle,
-                  }}
-                />
-              )}
-
-              {/* Gradient Overlay */}
-              <div style={overlayStyle} />
-
-              {/* Content */}
-              <div style={contentStyle}>
-                <h2 style={titleStyle}>{item.title}</h2>
-                <p style={descStyle}>{item.description}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </OwlCarousel>
+    </div>
+  ))}
+</OwlCarousel>
     </div>
   );
 };
@@ -151,14 +146,7 @@ const contentStyle = {
   color: '#fff',
   zIndex: 2,
   textAlign: 'center',
-  maxWidth: '80%',
-};
-
-const titleStyle = {
-  fontSize: '4rem',
-  margin: 0,
-  fontWeight: 700,
-  lineHeight: 1.1,
+  maxWidth: '100%',
 };
 
 const descStyle = {
