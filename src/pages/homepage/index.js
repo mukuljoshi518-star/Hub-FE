@@ -1,8 +1,6 @@
 import React from 'react'
-import Header from '../../layout/header'
 import Banner from './banner'
 import { Chatbot } from './Chatbot'
-import Footer from '../../layout/footer'
 import CreativeAbout from './CreativeAbout'
 import HeroLeadCapture from './HeroLeadCapture'
 import ArtPromptCard from './artPrompt'

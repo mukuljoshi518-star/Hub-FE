@@ -5,6 +5,7 @@ import PricingSection from '../../pages/pricing/PricingSection';
 import { ContactUs } from '../../pages/Trackdata/contactUs';
 import { AboutUs } from '../../pages/about/aboutUs';
 import LifeTracker from '../../pages/feature/DataDriven';
+import UserProfile from '../../pages/usersdetails/userProfile';
 
 export const AllRoutes = () => {
   return (
@@ -16,7 +17,7 @@ export const AllRoutes = () => {
           <Route path='/life-tracker' element={<LifeTracker />} />
           <Route path='/contact' element={<ContactUs />} />
           <Route path='/about' element={<AboutUs />} />
-
+          <Route path='/user-profile' element={<UserProfile />} />
         </Routes>
     
     </div>

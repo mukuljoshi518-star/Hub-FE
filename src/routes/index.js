@@ -1,4 +1,3 @@
-import { CrimeReportTable } from "../pages/crimereports/LifeTracker";
 import { Login } from "../pages/formdata/login";
 
 export const AppRoutes = [{
